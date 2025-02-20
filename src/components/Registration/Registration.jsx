@@ -1,3 +1,5 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from './../../firebase.init';
 
 const Registration = () => {
 
@@ -13,11 +15,18 @@ const Registration = () => {
         const phone = e.target[2].value;
         const password = e.target[3].value;
 
+        console.log(username, phone);
+
         // console.log(username, email, phone, password);
 
         // create user with email & password 
-
-        
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log(result.user);
+            })
+            .catch(error => {
+                console.log(error.message);
+            });
 
     }
 
