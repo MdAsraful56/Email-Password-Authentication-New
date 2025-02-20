@@ -32,7 +32,7 @@ const Registration = () => {
 
 
     return (
-        <div className="text-center max-w-lg mx-auto">
+        <div className="text-center max-w-xl mx-auto">
             <h1 className="text-center text-4xl justify-center items-center my-7">Registration</h1>
             <form onSubmit={handleRegister} >
                 {/* UserName  */}
@@ -56,7 +56,7 @@ const Registration = () => {
                     <input type="password" required placeholder="Password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
                 </label> <br />
                 {/* Registration Button */}
-                <button type="submit" className="btn btn-primary w-1/2 my-2">Register</button>
+                <button type="submit" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
             </form>
         </div>
     );
