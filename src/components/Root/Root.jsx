@@ -1,12 +1,14 @@
 import { Outlet } from "react-router";
 import Navber from "../Navber/Navber";
+import Footer from "../Footer/Footer";
 
 
 const Root = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             <Navber />
             <Outlet />
+            <Footer />
         </div>
     );
 };
