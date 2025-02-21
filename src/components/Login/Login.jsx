@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { NavLink } from "react-router";
 
 
 const Login = () => {
 
-    const [error, setError] = useState('');
 
     return (
         <div className="items-center justify-center flex h-screen">
