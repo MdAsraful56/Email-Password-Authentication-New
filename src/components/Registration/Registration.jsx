@@ -1,7 +1,10 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from './../../firebase.init';
+import { useState } from "react";
 
 const Registration = () => {
+
+    const [error, setError] = useState('');
 
 
     const handleRegister = (e) => {
@@ -26,6 +29,7 @@ const Registration = () => {
             })
             .catch(error => {
                 console.log(error.message);
+                setError(error.message);
             });
 
     }
@@ -58,6 +62,9 @@ const Registration = () => {
                 {/* Registration Button */}
                 <button type="submit" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
             </form>
+            {
+                error && <div className="text-red-500 text-2xl">{error}</div>
+            }
         </div>
     );
 };
