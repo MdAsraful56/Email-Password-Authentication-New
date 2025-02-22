@@ -28,6 +28,7 @@ const Registration = () => {
         setError('');
         setSuccess(false);
 
+
         // console.log(e.target[0].value);
 
         const username = e.target[0].value;
@@ -37,6 +38,9 @@ const Registration = () => {
 
         console.log(username, phone);
         // console.log(username, email, phone, password);
+
+
+
 
         // create user with email & password 
         createUserWithEmailAndPassword(auth, email, password)
@@ -81,11 +85,11 @@ const Registration = () => {
                     </button>
                 </label> <br />
                 <label  className=" flex items-center justify-center">
-                    <input type="checkbox" defaultChecked className="checkbox" />
+                    <input type="checkbox" className="checkbox" />
                     <span className="ml-2">I agree to the <a className="link link-hover">terms and conditions</a></span>
                 </label> <br />
                 {/* Registration Button */}
-                <button onClick={notify} type="submit" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
+                <button onClick={notify} type="submit" name="btn" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
             </form>
             <div className="mt-2">
                 <p>You have a Account ? <Link to='/login'>Login</Link> </p>
