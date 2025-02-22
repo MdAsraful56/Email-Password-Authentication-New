@@ -52,7 +52,6 @@ const Login = () => {
   }
 
   const handleForgetPassword = () => {
-    console.log('Forget password clicked', emailRef.current.value);
     const email = emailRef.current.value;
     if(!email) {
       console.log('Please enter email');
@@ -61,6 +60,7 @@ const Login = () => {
       sendPasswordResetEmail(auth, email)
       .then(() => {
           console.log('Password reset email sent');
+          alert('Reset email sent, please check your email');
           setSuccess(true);
       })
       .catch(error => {

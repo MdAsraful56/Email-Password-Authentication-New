@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { auth } from './../../firebase.init';
 import { useState } from "react";
 import { Link } from "react-router";
@@ -15,7 +15,7 @@ const Registration = () => {
 
     // react tost 
     const notify = () => {
-        success ? toast.success("Registration Success") : toast.error("Registration Failed");
+        success ? toast.error("Registration Failed") : toast.success("Registration Success");
     };
 
 
@@ -57,6 +57,17 @@ const Registration = () => {
                         setError(error.message);
                         setSuccess(false);
                     });
+
+                    // update profile name & photo url 
+                    const profile = {
+                        displayName: username,
+                    }
+                    updateProfile(auth.currentUser, profile)
+                        .then(()=> {})
+                        .catch(error => {
+                            console.log(error);
+                        })
+
             })
             .catch(error => {
                 console.log(error.message);
