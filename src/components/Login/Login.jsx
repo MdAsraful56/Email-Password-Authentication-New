@@ -1,9 +1,9 @@
-import { NavLink } from "react-router";
-import { useState } from "react";
+import { Link } from "react-router";
+import { useRef, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.init";
 
 const Login = () => {
@@ -11,6 +11,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const emailRef = useRef();
   
 
 
@@ -28,16 +29,46 @@ const Login = () => {
     console.log(email, password);
     
 
+    // reset 
+    setError('');
+    setSuccess(false);
+
     signInWithEmailAndPassword(auth, email, password)
     .then(result => {
         console.log(result.user);
-        setSuccess(true);
+
+        if (!result.user.emailVerified) {
+          setError('Please verify your email address.')
+        } else {
+          setSuccess(true);
+        }
+
     })
     .catch(error => {
         console.log(error.message);
         setError(error.message);
         setSuccess(false);
     })
+  }
+
+  const handleForgetPassword = () => {
+    console.log('Forget password clicked', emailRef.current.value);
+    const email = emailRef.current.value;
+    if(!email) {
+      console.log('Please enter email');
+      setError('Please enter email');
+    } else {
+      sendPasswordResetEmail(auth, email)
+      .then(() => {
+          console.log('Password reset email sent');
+          setSuccess(true);
+      })
+      .catch(error => {
+          console.log(error.message);
+          setError(error.message);
+          setSuccess(false);
+      });
+    }
   }
 
 
@@ -48,7 +79,7 @@ const Login = () => {
             <div className="card-body w-full relative">
                 <form onSubmit={handleLogin} className="fieldset">
                 <label className="fieldset-label">Email</label>
-                <input type="email" className="input" placeholder="Email" />
+                <input type="email" ref={emailRef} className="input" placeholder="Email" />
                 <label className="fieldset-label">Password</label>
                 <input type={showPassword ? 'text' : 'password'} className="input" placeholder="Password" />
                 <button className="btn btn-xs absolute right-10 top-[136px]" type="button">
@@ -58,11 +89,11 @@ const Login = () => {
                     <input type="checkbox" className="checkbox" />
                     <span className="ml-2">I agree to the <a className="link link-hover">terms and conditions</a></span>
                 </label> <br />
-                <div><a className="link link-hover">Forgot password?</a></div>
+                <div><a onClick={handleForgetPassword} className="link link-hover">Forgot password?</a></div>
                 <button onClick={notify} className="btn btn-neutral mt-4">Login</button>
                 </form>
                 <div>
-                    <a >Don&apos;t have an account ? </a><NavLink to='/registration'> Registration</NavLink>
+                    <a >Don&apos;t have an account ? </a><Link to='/registration'> Registration</Link>
                 </div>
                 {
                 error && <div className="text-red-500 text-base">{error}</div>
