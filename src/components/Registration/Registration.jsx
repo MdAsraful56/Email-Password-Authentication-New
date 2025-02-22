@@ -1,15 +1,29 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from './../../firebase.init';
 import { useState } from "react";
+import { Link } from "react-router";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Registration = () => {
 
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+
+
+    // react tost 
+    const notify = () => {
+        success ? toast.success("Registration Success") : toast.error("Registration Failed");
+    };
+
 
 
     const handleRegister = (e) => {
         e.preventDefault();
         console.log('Registration form submitted');
+
+        // reset status 
+        setError('');
+        setSuccess(false);
 
         // console.log(e.target[0].value);
 
@@ -26,10 +40,12 @@ const Registration = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 console.log(result.user);
+                setSuccess(true);
             })
             .catch(error => {
                 console.log(error.message);
                 setError(error.message);
+                setSuccess(false);
             });
 
     }
@@ -59,12 +75,20 @@ const Registration = () => {
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></g></svg>
                     <input type="password" required placeholder="Password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
                 </label> <br />
+                <label  className=" flex items-center justify-center">
+                    <input type="checkbox" defaultChecked className="checkbox" />
+                    <span className="ml-2">I agree to the <a className="link link-hover">terms and conditions</a></span>
+                </label> <br />
                 {/* Registration Button */}
-                <button type="submit" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
+                <button onClick={notify} type="submit" className="btn rounded-lg btn-primary w-1/2 my-2">Register</button>
             </form>
+            <div className="mt-2">
+                <p>You have a Account ? <Link to='/login'>Login</Link> </p>
+            </div>
             {
                 error && <div className="text-red-500 text-2xl">{error}</div>
             }
+            <ToastContainer />
         </div>
     );
 };
